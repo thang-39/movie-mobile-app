@@ -3,6 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { fetchPopularMovies } from "@/services/api";
+import { updateSearchCount } from "@/services/appwrite";
 import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -20,12 +21,16 @@ const Search = () => {
   } = useFetch(() => fetchPopularMovies({ query: searchQuery }));
 
   useEffect(() => {
+    
     const timeoutId = setTimeout(async () => {
       if (searchQuery.trim()) {
         await loadMovies();
+        if (movies?.length > 0 && movies[0]) {
+          await updateSearchCount(searchQuery, movies[0]);
+        }
       } else {
         reset();
-      }
+      } 
     }, 500);
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);
