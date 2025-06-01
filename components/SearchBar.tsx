@@ -3,9 +3,9 @@ import { Image, Text, TextInput, View } from "react-native";
 
 interface Props {
   placeholder: string;
-  value: string
+  value?: string
   onPress?: () => void;
-  onChangeText: (text: string) => void;
+  onChangeText?: (text: string) => void;
 }
 
 const SearchBar = ({onPress, placeholder, value, onChangeText}: Props) => {
